@@ -15,7 +15,7 @@ final class FileManagerService {
               completion: (URL) -> Void) throws {
         let fileUrl = fileURL(for: key,
                               fileExtension: fileExtension)
-        try? data.write(to: fileUrl)
+        let fds = try? data.write(to: fileUrl)
         completion(fileUrl)
     }
 
@@ -23,7 +23,8 @@ final class FileManagerService {
               fileExtension: String) -> Data? {
         let fileUrl = fileURL(for: key,
                               fileExtension: fileExtension)
-        return try? Data(contentsOf: fileUrl)
+        let slave = try? Data(contentsOf: fileUrl)
+        return slave
     }
 
     func existingFileURL(for key: String,
@@ -42,7 +43,7 @@ private extension FileManagerService {
 
     func fileURL(for key: String,
                  fileExtension: String) -> URL {
-        let url = FileManager.default.urls(for: .cachesDirectory,
+        let url = FileManager.default.urls(for: .documentDirectory,
                                            in: .userDomainMask)[0]
         return url.appendingPathComponent(key).appendingPathExtension(fileExtension)
     }

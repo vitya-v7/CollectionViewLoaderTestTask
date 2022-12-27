@@ -51,20 +51,20 @@ extension LoadImageHelper {
                                      indexPath: indexPath,
                                      successCallback: { [weak self] image, imagePath in
             guard let imageData = image?.pngData() else { return }
-                        DispatchQueue.global(qos: .background).async {
-            do {
-                try self?.fileManagerService?.save(data: imageData,
-                                                             for: key,
-                                                             fileExtension: fileExtension) { imageURL in
-                    self?.imageCacheStorage?.save(image: image,
-                                                  for: argument.key)
-                    completion((url: imageURL,
-                                image: image))
+            DispatchQueue.global(qos: .background).async {
+                do {
+                    try self?.fileManagerService?.save(data: imageData,
+                                                       for: key,
+                                                       fileExtension: fileExtension) { imageURL in
+                        self?.imageCacheStorage?.save(image: image,
+                                                      for: argument.key)
+                        completion((url: imageURL,
+                                    image: image))
+                    }
+                } catch {
+                    print(error.localizedDescription)
                 }
-            } catch {
-                print(error.localizedDescription)
             }
-                        }
         })
     }
 

@@ -26,7 +26,6 @@ extension ImageCacheStorage {
 
     func image(by key: String) -> UIImage? {
         let image = cache.object(forKey: NSString(string: key))
-        print(image?.description)
         return image
     }
 }

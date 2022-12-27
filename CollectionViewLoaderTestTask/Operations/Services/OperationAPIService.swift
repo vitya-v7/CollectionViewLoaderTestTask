@@ -38,8 +38,8 @@ final class OperationImageAPIService {
         } else {
             let downloadOperation = ImageDownloadOperation(imagePath)
             operation = downloadOperation
+            self.pendingOperations.downloadQueue.addOperation(downloadOperation)
             operationQueue.async(flags: .barrier) { [weak self] in
-                self?.pendingOperations.downloadQueue.addOperation(downloadOperation)
                 self?.pendingOperations.downloadsInProgress[indexPath] = downloadOperation
             }
         }

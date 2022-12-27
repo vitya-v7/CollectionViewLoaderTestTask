@@ -25,7 +25,6 @@
 		AD872CD72952484B00E0B64E /* PhotosDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD872CD62952484B00E0B64E /* PhotosDataSource.swift */; };
 		AD88B79C295ABC9A00C01B5A /* PendingOperations.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD88B796295ABC9A00C01B5A /* PendingOperations.swift */; };
 		AD88B79D295ABC9A00C01B5A /* ImageDownloadOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD88B797295ABC9A00C01B5A /* ImageDownloadOperation.swift */; };
-		AD88B79E295ABC9A00C01B5A /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD88B799295ABC9A00C01B5A /* APIService.swift */; };
 		AD88B79F295ABC9A00C01B5A /* OperationAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD88B79B295ABC9A00C01B5A /* OperationAPIService.swift */; };
 		AD9408B1295414EB00728CF6 /* ModulesCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD9408B0295414EA00728CF6 /* ModulesCoordinator.swift */; };
 		ADFA9AEE295A0D3B00F0BC86 /* FileManagerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADFA9AED295A0D3B00F0BC86 /* FileManagerService.swift */; };
@@ -73,7 +72,6 @@
 		AD872CD62952484B00E0B64E /* PhotosDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotosDataSource.swift; sourceTree = "<group>"; };
 		AD88B796295ABC9A00C01B5A /* PendingOperations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PendingOperations.swift; sourceTree = "<group>"; };
 		AD88B797295ABC9A00C01B5A /* ImageDownloadOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageDownloadOperation.swift; sourceTree = "<group>"; };
-		AD88B799295ABC9A00C01B5A /* APIService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
 		AD88B79B295ABC9A00C01B5A /* OperationAPIService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OperationAPIService.swift; sourceTree = "<group>"; };
 		AD9408B0295414EA00728CF6 /* ModulesCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModulesCoordinator.swift; sourceTree = "<group>"; };
 		ADFA9AED295A0D3B00F0BC86 /* FileManagerService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileManagerService.swift; sourceTree = "<group>"; };
@@ -189,7 +187,6 @@
 			children = (
 				AD88B795295ABC9A00C01B5A /* OperationManager */,
 				AD88B797295ABC9A00C01B5A /* ImageDownloadOperation.swift */,
-				AD88B798295ABC9A00C01B5A /* API */,
 				AD88B79A295ABC9A00C01B5A /* Services */,
 			);
 			path = Operations;
@@ -201,14 +198,6 @@
 				AD88B796295ABC9A00C01B5A /* PendingOperations.swift */,
 			);
 			path = OperationManager;
-			sourceTree = "<group>";
-		};
-		AD88B798295ABC9A00C01B5A /* API */ = {
-			isa = PBXGroup;
-			children = (
-				AD88B799295ABC9A00C01B5A /* APIService.swift */,
-			);
-			path = API;
 			sourceTree = "<group>";
 		};
 		AD88B79A295ABC9A00C01B5A /* Services */ = {
@@ -413,7 +402,6 @@
 			files = (
 				AD88B79F295ABC9A00C01B5A /* OperationAPIService.swift in Sources */,
 				AD9408B1295414EB00728CF6 /* ModulesCoordinator.swift in Sources */,
-				AD88B79E295ABC9A00C01B5A /* APIService.swift in Sources */,
 				AD7A7ECC294BB2EF00FF18ED /* ImageViewModuleController.swift in Sources */,
 				AD872CD4295235E700E0B64E /* ImageViewModulePresenter.swift in Sources */,
 				AD872CD72952484B00E0B64E /* PhotosDataSource.swift in Sources */,

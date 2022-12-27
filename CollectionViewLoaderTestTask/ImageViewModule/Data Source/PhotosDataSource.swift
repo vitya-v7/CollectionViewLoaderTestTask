@@ -9,13 +9,12 @@ import UIKit
 
 class PhotosDataSource: NSObject {
 
-    let host = "https://newssourcegy.com/"
-    var imagesNames = ["wp-content/themes/main/timthumb.php?src=https%3A%2F%2Fnewssourcegy.com%2Fwp-content%2Fuploads%2F2020%2F07%2FScreen-Shot-2020-07-01-at-6.53.01-PM.png",
-                               "wp-content/themes/main/timthumb.php?src=https%3A%2F%2Fnewssourcegy.com%2Fwp-content%2Fuploads%2F2020%2F07%2FScreen-Shot-2020-07-01-at-6.53.01-PM.png",
-                               "wp-content/themes/main/timthumb.php?src=https%3A%2F%2Fnewssourcegy.com%2Fwp-content%2Fuploads%2F2020%2F07%2FScreen-Shot-2020-07-01-at-6.53.01-PM.png",
-                               "wp-content/themes/main/timthumb.php?src=https%3A%2F%2Fnewssourcegy.com%2Fwp-content%2Fuploads%2F2020%2F07%2FScreen-Shot-2020-07-01-at-6.53.01-PM.png",
-                               "wp-content/themes/main/timthumb.php?src=https%3A%2F%2Fnewssourcegy.com%2Fwp-content%2Fuploads%2F2020%2F07%2FScreen-Shot-2020-07-01-at-6.53.01-PM.png",
-                               "wp-content/themes/main/timthumb.php?src=https%3A%2F%2Fnewssourcegy.com%2Fwp-content%2Fuploads%2F2020%2F07%2FScreen-Shot-2020-07-01-at-6.53.01-PM.png"]
+    let host = "https://4kwallpapers.com/"
+    var imagesNames = ["images/wallpapers/fairy-house-bokeh-3840x2160-9641.jpg",
+                               "images/wallpapers/fairy-house-bokeh-3840x2160-9641.jpg",
+                               "images/wallpapers/fairy-house-bokeh-3840x2160-9641.jpg",
+                               "images/wallpapers/fairy-house-bokeh-3840x2160-9641.jpg",
+                               "images/wallpapers/fairy-house-bokeh-3840x2160-9641.jpg"]
     
 }
 
@@ -34,7 +33,7 @@ extension PhotosDataSource: UICollectionViewDataSource {
                   return UICollectionViewCell()
               }
         
-        cell.configure(withArguments: (imagesNames[indexPath.item],
+        cell.configure(withArguments: ("item+\(indexPath.item)",
                                        url,
                                        "png"),
                        indexPath: indexPath)
