@@ -9,89 +9,94 @@ import UIKit
 
 protocol IImageViewModuleOutput {
     func viewDidLoadDone()
+    func viewWillAppearDone()
     func viewDidAppearDone()
     func itemSelected(withIndex index: Int)
+    func clearFiles()
+    func renewImageData()
 }
 
 protocol IImageViewModuleInput: AnyObject {
     func setCollectionViewDataSource(_ photosDataSource: PhotosDataSource)
+    func showErrorAlert(withTitle title: String,
+                        andDescription description: String)
+    func reloadCollectionView()
 }
 
 class ImageViewModuleController: UIViewController, IImageViewModuleInput {
 
-    
     var collectionView: UICollectionView?
-    
     var output: IImageViewModuleOutput?
     
+    private var isInteractibleCollectionView = true
+    let refreshControl = UIRefreshControl()
+
     override func viewDidLoad() {
         super.viewDidLoad()
-       
-        
-        let dataSource = { [weak self] (index: Int) -> CGSize in
-            guard let strongSelf = self,
-                  let collectionView = strongSelf.collectionView else {
-                return .zero
-            }
-            return CGSize(width: collectionView.bounds.width,
-                          height: collectionView.bounds.width)
-        }
         let collectionViewLayout = CustomCollectionViewLayout()
-       
-        collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewLayout)
-        collectionView?.decelerationRate = .fast
-       
-        self.collectionView?.showsVerticalScrollIndicator = true
-        self.collectionView?.showsHorizontalScrollIndicator = true
+        self.collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewLayout)
+        self.view.addSubview(self.collectionView ?? UICollectionView())
+        self.refreshControl.addTarget(self, action: #selector(self.refresh(_:)), for: .valueChanged)
+        self.collectionView?.alwaysBounceVertical = true
+        self.refreshControl.tintColor = .red
+        self.collectionView?.addSubview(self.refreshControl)
+        self.collectionView?.refreshControl = self.refreshControl
+        self.collectionView?.decelerationRate = .fast
+        self.view.backgroundColor = .white
         self.collectionView?.backgroundColor = .white
-        
+        self.collectionView?.showsVerticalScrollIndicator = true
+        self.collectionView?.alwaysBounceVertical = true
         self.collectionView?.delegate = self
         self.collectionView?.register(ImageViewCell.self,
                                       forCellWithReuseIdentifier: ImageViewCell.reuseId)
-        self.view.addSubview(self.collectionView ?? UICollectionView())
+        var topInset = 0.0
+        if let top = self.navigationController?.navigationBar.frame.size.height {
+            topInset = top
+        }
         self.collectionView?.constraint(toView: self.view,
-                                        top: 0,
+                                        top: topInset,
                                         bottom: 0,
-                                        left: -10,
-                                        right: 10)
-        navigationController?.setNavigationBarHidden(true, animated: false)
+                                        left: 0,
+                                        right: 0)
         self.output?.viewDidLoadDone()
-        
-        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.output?.viewWillAppearDone()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        if let collectionView = collectionView {
-            let size = CGSize(
-                width: collectionView.bounds.width,
-                height: collectionView.bounds.width)
-            (self.collectionView?.collectionViewLayout as? UICollectionViewFlowLayout)?.itemSize = size
-        }
         self.output?.viewDidAppearDone()
     }
     
-    var isInteractibleCollectionView = true
-    func setCollectionViewDataSource(_ photosDataSource: PhotosDataSource) {
-        self.collectionView?.dataSource = photosDataSource
+    @objc func refresh(_ sender: AnyObject) {
+        self.collectionView?.refreshControl?.beginRefreshing()
+        self.output?.clearFiles()
+        self.output?.renewImageData()
         self.collectionView?.reloadData()
+        self.collectionView?.refreshControl?.endRefreshing()
     }
     
-//    func getCollectionViewLayout() -> CustomCollectionViewLayout {
-//        let customCollectionLayout = CustomCollectionViewLayout()
-//        customCollectionLayout.minimumInteritemSpacing = 12.0
-//        customCollectionLayout.minimumLineSpacing = 12.0
-//        customCollectionLayout.itemSize = CGSize(
-//            width: self.view.bounds.width - 20.0,
-//            height: self.view.bounds.width - 20.0)
-//        customCollectionLayout.scrollDirection = .vertical
-//        customCollectionLayout.sectionInset = UIEdgeInsets(
-//            top: 0,
-//            left: 10,
-//            bottom: 0,
-//            right: 10)
-//        return customCollectionLayout
-//    }
+    func showErrorAlert(withTitle title: String,
+                        andDescription description: String) {
+        AlertHelper.shared.showAlert(inController: self,
+                                     withTitle: title,
+                                     message: description)
+    }
+    
+    func setCollectionViewDataSource(_ photosDataSource: PhotosDataSource) {
+        self.collectionView?.dataSource = photosDataSource
+        self.reloadCollectionView()
+    }
+    
+    func reloadCollectionView() {
+        DispatchQueue.main.async {
+            self.collectionView?.reloadData()
+        }
+    }
+    
 }
 
 extension ImageViewModuleController: UICollectionViewDelegate {
@@ -111,11 +116,13 @@ extension ImageViewModuleController: UICollectionViewDelegate {
             self.collectionView?.performBatchUpdates({
                 
                 self.output?.itemSelected(withIndex: indexPath.item)
-                self.collectionView?.deleteItems(at:[indexPath])
+                self.collectionView?.deleteItems(at: [indexPath])
                 self.collectionView?.collectionViewLayout.invalidateLayout()
             }, completion: { _ in
                 collectionView.isUserInteractionEnabled = true
             })
+        }, errorCompletion: {
+            collectionView.isUserInteractionEnabled = true
         })
     }
 }

@@ -16,13 +16,6 @@ final class OperationImageAPIService {
     private var pendingOperations = PendingOperations()
     var imageURL: URL?
     
-    static var shared: OperationImageAPIService = {
-        let instance = OperationImageAPIService()
-        return instance
-    }()
-    
-    private init() {}
-    
     func download(imagePath: String,
                   indexPath: IndexPath,
                   successCallback: @escaping (_ image: UIImage?,
