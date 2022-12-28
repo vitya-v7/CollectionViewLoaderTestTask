@@ -8,10 +8,10 @@
 import UIKit
 
 typealias LoadedImage = (url: URL,
-                            image: UIImage?)
+                         image: UIImage?)
 typealias LoadImageArgument = (key: String,
-                                          url: URL,
-                                          fileExtension: String)
+                               url: URL,
+                               fileExtension: String)
 
 final class LoadImageHelper {
     private let imageCacheStorage: ImageCacheStorage?
@@ -25,13 +25,37 @@ final class LoadImageHelper {
         self.imageCacheStorage = imageCacheStorage
         self.fileManagerService = fileManagerService
     }
+    
+    func clearImageCacheStorage() {
+        self.imageCacheStorage?.clearCache()
+    }
+    
+    func clearImageCacheStorageForKeys(_ keys: [String]) {
+        for key in keys {
+            self.imageCacheStorage?.deleteItemForKey(key)
+        }
+    }
+    
+    func clearFileManagerForKeys(_ keys: [String],
+                                 extensions: [String]) {
+        for (key, ext) in zip(keys, extensions) {
+            fileManagerService?.removeData(for: key,
+                                              fileExtension: ext)
+        }
+        
+    }
+    
+    func clearFileManager() {
+        fileManagerService?.removeAllFiles()
+    }
 }
 
 extension LoadImageHelper {
     
     func perform(_ argument: LoadImageArgument,
                  indexPath: IndexPath,
-                 completion: @escaping (LoadedImage) -> Void) {
+                 completion: @escaping (LoadedImage) -> Void,
+                 fileLoadingCompletion: @escaping () -> Void) {
         if let image = imageCacheStorage?.image(by: argument.key) {
             return completion((url: argument.url.absoluteURL,
                                image: image))
@@ -46,10 +70,11 @@ extension LoadImageHelper {
                                image: image))
         }
         let fileExtension = argument.fileExtension
-        let key = argument.fileExtension
+        let key = argument.key
+        fileLoadingCompletion()
         self.clientService?.download(imagePath: argument.url.absoluteString,
                                      indexPath: indexPath,
-                                     successCallback: { [weak self] image, imagePath in
+                                     successCallback: { [weak self] image, _ in
             guard let imageData = image?.pngData() else { return }
             DispatchQueue.global(qos: .background).async {
                 do {

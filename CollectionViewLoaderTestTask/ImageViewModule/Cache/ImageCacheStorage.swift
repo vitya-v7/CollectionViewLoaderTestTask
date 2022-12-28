@@ -28,4 +28,12 @@ extension ImageCacheStorage {
         let image = cache.object(forKey: NSString(string: key))
         return image
     }
+    
+    func clearCache() {
+        cache.removeAllObjects()
+    }
+    
+    func deleteItemForKey(_ key: String) {
+        cache.removeObject(forKey: NSString(string: key))
+    }
 }
