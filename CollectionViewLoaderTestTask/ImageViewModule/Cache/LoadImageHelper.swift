@@ -13,14 +13,48 @@ typealias LoadImageArgument = (key: String,
                                url: URL,
                                fileExtension: String)
 
-final class LoadImageHelper {
-    private let imageCacheStorage: ImageCacheStorage?
-    private let fileManagerService: FileManagerService?
-    private let clientService: OperationImageAPIService?
+protocol LoadImageHelperProtocol {
+    /**
+     Очистить кэш
+     */
+    func clearImageCacheStorage()
+    /**
+     - Parameter keys: название файлов для удаления
+     */
+    func clearImageCacheStorageForKeys(_ keys: [String])
+    /**
+    Очистить папку кэша
+     */
+    
+    func clearFileManager()
+    /**
+     - Parameter keys: название файлов для удаления
+     - Parameter keys: расширения файлов для удаления
+     */
+    func clearFileManagerForKeys(_ keys: [String],
+                                 extensions: [String])
+    /**
+     Загрузка картики
 
-    init(clientService: OperationImageAPIService,
-         imageCacheStorage: ImageCacheStorage,
-         fileManagerService: FileManagerService) {
+     - Parameter argument: key - название файла в кэше, url - адрес загружаемой картинки и fileextension - расширение файла
+     - Parameter indexPath: indexPath загружаемой картинки
+     - Parameter completion: блок, вызывающийся при успешной загрузки картинки
+     - Parameter fileLoadingCompletion: блок, вызывающийся, если нужно убрать индикатор загрузки
+     */
+    func perform(_ argument: LoadImageArgument,
+                 indexPath: IndexPath,
+                 completion: @escaping (LoadedImage) -> Void,
+                 fileLoadingCompletion: @escaping () -> Void)
+}
+
+final class LoadImageHelper: LoadImageHelperProtocol {
+    private let imageCacheStorage: ImageCacheStorageProtocol?
+    private let fileManagerService: FileManagerServiceProtocol?
+    private let clientService: OperationImageAPIServiceProtocol?
+
+    init(clientService: OperationImageAPIServiceProtocol,
+         imageCacheStorage: ImageCacheStorageProtocol,
+         fileManagerService: FileManagerServiceProtocol) {
         self.clientService = clientService
         self.imageCacheStorage = imageCacheStorage
         self.fileManagerService = fileManagerService
