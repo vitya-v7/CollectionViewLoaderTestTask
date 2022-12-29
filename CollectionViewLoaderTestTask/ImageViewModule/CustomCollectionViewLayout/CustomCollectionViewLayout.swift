@@ -18,7 +18,7 @@ class CustomCollectionViewLayout: UICollectionViewFlowLayout {
         minimumInteritemSpacing = 0
         minimumLineSpacing = 0
     }
-
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

@@ -8,7 +8,21 @@
 import Foundation
 import UIKit
 
-final class OperationImageAPIService {
+protocol OperationImageAPIServiceProtocol {
+    /**
+     Загрузка картики по indexPath
+     
+     - Parameter imagePath: адрес картинки для загрузки
+     - Parameter indexPath: indexPath картинки
+     - Parameter successCallback: блок, вызываемый по успешной загрузке
+     */
+    func download(imagePath: String,
+                  indexPath: IndexPath,
+                  successCallback: @escaping (_ image: UIImage?,
+                                              _ imagePath: String) -> Void)
+}
+
+final class OperationImageAPIService: OperationImageAPIServiceProtocol {
     
     private static let operationQueueID = "com.viktor.deryabin.Hammer-Systems-Test-Task.operationQueue"
     private let operationQueue = DispatchQueue(label: OperationImageAPIService.operationQueueID,

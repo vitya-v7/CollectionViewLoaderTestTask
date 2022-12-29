@@ -46,7 +46,7 @@ class ImageViewCell: UICollectionViewCell {
     }
     
     func configure(withArguments arguments: LoadImageArgument,
-                   useCase: LoadImageHelper,
+                   useCase: LoadImageHelperProtocol,
                    indexPath: IndexPath) {
         self.imageView?.isHidden = false
         self.imageWasNotLoadedYet = true

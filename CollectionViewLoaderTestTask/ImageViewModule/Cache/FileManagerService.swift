@@ -7,7 +7,54 @@
 
 import UIKit
 
-final class FileManagerService {
+protocol FileManagerServiceProtocol {
+    /**
+     Сохранить данные картинки во временную папку
+     
+     - Parameter data: данные картинки, которые нужно сохранить
+     - Parameter key: название/ключ картинки, которую нужно сохранить
+     - Parameter fileExtension: расширение картинки, которую нужно сохранить
+     - Parameter completion: блок по успешному сохранению
+     - Returns: искомая картинка
+     */
+    func save(data: Data,
+              for key: String,
+              fileExtension: String,
+              completion: (URL) -> Void) throws
+    /**
+     Достать данные картинки по ключу и расширению из временной папки
+     
+     - Parameter key: ключ картинки, которую достаем
+     - Parameter fileExtension: расширение картинки, которую достаем
+     - Returns: данные искомой картинки
+     */
+    func data(for key: String,
+              fileExtension: String) -> Data?
+    /**
+     Удалить данные картинки по ключу из временной папки
+     
+     - Parameter key: ключ картинки, которую хотим удалить
+     - Parameter fileExtension: расширение картинки, которую удаляем
+     */
+    func removeData(for key: String,
+                    fileExtension: String)
+    /**
+     Составить URL из ключа и расширения
+     
+     - Parameter key: ключ картинки
+     - Parameter fileExtension: расширение картинки
+     - Returns: готовый URL
+     */
+    func existingFileURL(for key: String,
+                         fileExtension: String) -> URL?
+    /**
+     Удалить все файлы из временной папки
+     */
+    func removeAllFiles()
+    
+}
+
+final class FileManagerService: FileManagerServiceProtocol {
 
     private let folderName = "TemporaryFiles"
         

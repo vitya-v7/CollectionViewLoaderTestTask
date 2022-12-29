@@ -143,10 +143,9 @@
 			isa = PBXGroup;
 			children = (
 				AD7F70CA295C52D600BB869E /* ModulesAssembly */,
-				AD7F70C8295C529000BB869E /* Extensions */,
 				AD8A151A295B50B80044966A /* Helpers */,
-				AD88B794295ABC9A00C01B5A /* Operations */,
 				AD872CD5295236AE00E0B64E /* ImageViewModule */,
+				AD7F70C8295C529000BB869E /* Extensions */,
 				AD7A7EC7294BB2EF00FF18ED /* AppDelegate.swift */,
 				AD7A7EC9294BB2EF00FF18ED /* SceneDelegate.swift */,
 				AD7A7ECD294BB2EF00FF18ED /* Main.storyboard */,
@@ -217,6 +216,7 @@
 		AD872CD5295236AE00E0B64E /* ImageViewModule */ = {
 			isa = PBXGroup;
 			children = (
+				AD88B794295ABC9A00C01B5A /* Operations */,
 				AD88B7A2295ADC0200C01B5A /* CustomCollectionViewLayout */,
 				AD88B7A1295ADAD300C01B5A /* Cache */,
 				AD88B7A0295ADAC400C01B5A /* Data Source */,
